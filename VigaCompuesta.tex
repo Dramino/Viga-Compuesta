@@ -21,6 +21,7 @@
 \newcommand\dW{79.4}     %Peralte del perfil
 \newcommand\bfW{30}    %ancho del patín
 \newcommand\tfW{2.2}    %espesor del patín
+\newcommand\twW{2.2}    %espesor del alma
 \newcommand\hrW{0}     %Distancia del borde superior de patin al concreto
 \newcommand\tcW{10}       %Peralte de concreto
 \newcommand\asW{240}  %Area de acero
@@ -88,81 +89,81 @@ Aplicando a los datos se tiene que el bloque de compresión es
 	a=\frac{(\asW)(\fy)}{0.85(\fc)(\beVC)}=\aVC \text{ cm}
 \end{align*}
 
-\FPifgt \tcW \aVC  \FPeval{\pruebaVer}{1} \else \FPeval{\pruebaVer}{2} \fi %Evaluar si esta den losa o en viga
+\FPifgt \tcW \aVC  \FPeval{\pruebaVer}{1} \else \FPeval{\pruebaVer}{2} \fi %Evaluar si esta en losa o en viga
 \ifthenelse{\pruebaVer=1}
 	{%Eje neutro en losa
-Como $(a=\aVC) < (t_c=\tcW)$, el eje neutro está en la losa por lo que el momento nominal se calcula con las ecuaciones siguientes
+		Como $(a=\aVC) < (t_c=\tcW)$, el eje neutro está en la losa por lo que el momento nominal se calcula con las ecuaciones siguientes
 
-\begin{equation}
-	M_n=A_sF_yd_1
-\end{equation}
+		\begin{equation}
+			M_n=A_sF_yd_1
+		\end{equation}
 
-La distancia $d_t$ del centro de gravedad de la sección de acero al borde superior es:
+	La distancia $d_t$ del centro de gravedad de la sección de acero al borde superior es:
 
-\begin{equation}
+	\begin{equation}
 		d_t=\frac{d}{2}
-\end{equation}
+	\end{equation}
 
-El brazo del par de fuerzas interiores es:
+	El brazo del par de fuerzas interiores es:
 
-\begin{equation}
+	\begin{equation}
 		d_1=d_t+h_r+t_c-0.5a
-\end{equation}
+	\end{equation}
 
-donde $h_r$ es la distancia entre el borde inferior de la losa y el superior de la viga
+	donde $h_r$ es la distancia entre el borde inferior de la losa y el superior de la viga
 
-Por lo que al aplicarlo a los valores de este trabajo se tiene
+	Por lo que al aplicarlo a los valores de este trabajo se tiene
 
-\FPeval{\dtVC}{round(\dW/2,2)}
-\begin{align*}
+	\FPeval{\dtVC}{round(\dW/2,2)}
+	\begin{align*}
 		d_t=\frac{\dW}{2}=\dtVC \text{ cm}
-\end{align*}
+	\end{align*}
 
-\FPeval{\daVC}{round(\dtVC+\hrW+\tcW-\aVC/2,2)}
-\begin{align*}
+	\FPeval{\daVC}{round(\dtVC+\hrW+\tcW-\aVC/2,2)}
+	\begin{align*}
 		d_1=\dtVC+\hrW+\tcW-0.5(\aVC)=\daVC \text{ cm}
-\end{align*}
+	\end{align*}
 
-\FPeval{\mnVC}{round(\asW*\fy*\daVC/100000,2)}
-\begin{align*}
+	\FPeval{\mnVC}{round(\asW*\fy*\daVC/100000,2)}
+	\begin{align*}
 		M_n=(\asW)(\fy)(\daVC)\times10^{-5}=\mnVC \text { t-m}
-\end{align*}
+	\end{align*}
 
-Por lo que el momento resistente es
+	Por lo que el momento resistente es
 
-\FPeval{\mrVC}{round(\mnVC*0.85,2)}
-\begin{align*}
+	\FPeval{\mrVC}{round(\mnVC*0.85,2)}
+	\begin{align*}
 		M_R=0.85(\mnVC)=\textcolor{blue}{\mrVC \text { t-m}}
-\end{align*}
-	}
-	%else
-	{
+	\end{align*}
+}
+%else
+{
 	Como $(a=\aVC) > (t_c=\tcW)$, el eje neutro está en la viga por lo que toda la losa trabaja a compresión siendo la fuerza del concreto 
-\begin{equation}
+	\begin{equation}
 		C_c=0.85f_{c}^{'}b_et_c
-\end{equation}
+	\end{equation}
 
-Al estar el ENP sobre la viga, se pueden dar dos casos, uno cuando esta sobre el patín y otro sobre la viga por lo que se evalúan las fuerzas de compresión y tensión situando el ENP al borde inferior del patín por lo que
-\begin{equation}
+	Al estar el ENP sobre la viga, se pueden dar dos casos, uno cuando esta sobre el patín y otro sobre la viga por lo que se evalúan las fuerzas de compresión y tensión situando el ENP al borde inferior del patín por lo que
+	\begin{equation}
 		C=C_c+A_{ps}F_y
-\end{equation}
+	\end{equation}
 
-\begin{equation}
+	\begin{equation}
 		T=(A_s-A_{ps})F_y
-\end{equation}
+	\end{equation}
 
-Donde $C$ es la compresión sobre el ENP, $C_c$ es la compresión debia al concreto, $A_{ps}$ es el área del patín superior,$T$ es la tensión debajo del ENP y $A_{s}$ es el Area total del acero.
+	Donde $C$ es la compresión sobre el ENP, $C_c$ es la compresión debia al concreto, $A_{ps}$ es el área del patín superior,$T$ es la tensión debajo del ENP y $A_{s}$ es el Area total del acero.
  
-Por lo que
-\FPeval{\ccVC}{round(0.85*\fc*\beVC*\tcW,2)}
-\FPeval{\cVC}{round(\ccVC+(\bfW*\tfW*\fy),2)}
-\FPeval{\tVC}{round((\asW-(\bfW*\tfW))*\fy,2)}
+	Por lo que
+	\FPeval{\ccVC}{round(0.85*\fc*\beVC*\tcW,2)}
+	\FPeval{\cVC}{round(\ccVC+(\bfW*\tfW*\fy),2)}
+	\FPeval{\tVC}{round((\asW-(\bfW*\tfW))*\fy,2)}
  
-\begin{align*}
+	\begin{align*}
 		&C_c=0.85(\fc)(\beVC)(\tcW)=&\ccVC \text{ kg} \\
 		&C=\ccVC+(\bfW)(\tfW)(\fy)=&\cVC \text{ kg} \\
 		&T=[\asW-(\bfW)(\tfW)]\fy=&\tVC \text{ kg} \\
-\end{align*}
+	\end{align*}
 	
 	\FPifgt \cVC \tVC  \FPeval{\pruebaVerB}{1} \else \FPeval{\pruebaVerB}{2} \fi %Evaluar si esta en patín
 	\ifthenelse{\pruebaVerB=1}
@@ -197,13 +198,13 @@ Por lo que
 			d_2^{''}=d_t-0.5t_{tpc}
 		\end{equation}
 		
-	Por lo que el momento nominal para este trabajo es:
-	\FPeval{\caVC}{round((\asW*\fy-\ccVC)/2,2)} %Compresión del patín
-	\FPeval{\tpcVC}{round(\caVC/(\bfW*\fy),2)} %Profunidad a compresión
-	\FPeval{\dtVC}{round((0.5*\asW*\dW-0.5*\bfW*\tpcVC^2)/(\asW-\bfW*\tpcVC),2)} %distancia del acero al patin superior
-	\FPeval{\dab}{round(\dtVC+\hrW+0.5*\tcW,2)} %d'2
-	\FPeval{\daab}{round(\dtVC-0.5\tpcVC,2)} %d''2
-	\FPeval{\mnVC}{round((\ccVC*\dab+\caVC*\daab)/100000,2)} %Momento nominal
+		Por lo que el momento nominal para este trabajo es:
+		\FPeval{\caVC}{round((\asW*\fy-\ccVC)/2,2)} %Compresión del patín
+		\FPeval{\tpcVC}{round(\caVC/(\bfW*\fy),2)} %Profunidad a compresión
+		\FPeval{\dtVC}{round((0.5*\asW*\dW-0.5*\bfW*\tpcVC^2)/(\asW-\bfW*\tpcVC),2)} %distancia del acero al patin superior
+		\FPeval{\dab}{round(\dtVC+\hrW+0.5*\tcW,2)} %d'2
+		\FPeval{\daab}{round(\dtVC-0.5\tpcVC,2)} %d''2
+		\FPeval{\mnVC}{round((\ccVC*\dab+\caVC*\daab)/100000,2)} %Momento nominal
 		\begin{align*}
 			&C_a=\frac{(\asW)(\fy)-\ccVC}{2}=&\caVC \text{ kg} \\
 			&t_{pc}=\frac{\caVC}{(\bfW)(\fy)}=&\tpcVC \text{ cm} \\
@@ -223,13 +224,90 @@ Por lo que
 	{
 		Como la compresión es menor a la tensión, el ENP esta en el alma por lo que el momento nominal se cálcula con
 		\begin{equation}
-			M_n=C_c d_2^{'} + C_a d_2^{''}
+			M_n=C_c d_3^{'} + C_a d_3^{''}
 		\end{equation}
-		 Para obtener las lineas de acción de las fuerzas se obtine la compresión del patín
+		Para obtener las lineas de acción de las fuerzas se obtine la compresión del patín
+
+		\FPeval{\caVC}{round(0.5*(\asW*\fy-\ccVC),2)}
+
 		\begin{equation}
 			C_a=\frac{A_s F_y-C_c}{2}
 		\end{equation}
-		Profunidad del alma a compresión
+
+		\begin{align*}
+			C_a=\frac{(\asW)(\fy)-(\ccVC)}{2}=\caVC \text{ kg}
+		\end{align*}
+		Profunidad del alma a compresión es
+
+		\FPeval{\hcVC}{round((\caVC-\bfW*\tfW*\fy)/(\twW*\fy),2)}
+
+		\begin{equation}
+			h_c=\frac{C_a-b_ft_fF_y}{t_wF_y}
+	    \end{equation}
+
+		\begin{align*}
+		 	h_c=\frac{\caVC-(\bfW)(\tfW)(\fy)}{(\twW)(\fy)}=\hcVC\text{ cm}
+		\end{align*}
+		
+		 El área a compresión es:
+
+		\FPeval{\aacVC}{round(\bfW*\tfW+\hcVC*\twW,2)}
+
+		\begin{equation}
+			A_{ac}=b_ft_f+h_ct_w
+		\end{equation}
+
+		\begin{align*}
+			A_{ac}=(\bfW)(\tfW)+(\hcVC)(\twW)=\aacVC \text{ cm$^2$}
+		\end{align*}
+
+		Para obtener los brazos de palanca se tiene
+
+		\FPeval{\dcVC}{round((0.5*\bfW*\tfW^2+\hcVC*\twW*(\tfW+0.5*\hcVC))/(\aacVC),2)}
+
+		\begin{equation}
+			d_c=\frac{0.5b_ft_{f}^{2}+h_ct_w(t_f+0.5h_c)}{A_{ac}}
+		\end{equation}
+
+		\begin{align*}
+			d_c=\frac{0.5(\bfW)(\tfW)^2+(\hcVC)(\twW)[\tfW+0.5(\hcVC)]}{\aacVC}=\dcVC \text{ cm}
+		\end{align*}
+
+		\FPeval{\dtVC}{round((0.5*\asW*\dW-\aacVC*(\dW-\dcVC))/(\asW-\aacVC),2)}
+
+		\begin{equation}
+			d_t=\frac{0.5A_wd-A{ac}(d-d_c)}{A_w-A_{ac}}
+		\end{equation}
+
+		\begin{align*}
+			d_t=\frac{0.5(\asW)(\dW)-(\aacVC)(\dW-\dcVC)}{\asW-\aacVC}=\dtVC \text{ cm}
+		\end{align*}
+
+		\FPeval{\dptresVC}{round(\dW+\hrW+0.5*\tcW-\dtVC,2)}
+		\begin{equation}
+			d'_3=d+h_r+0.5t_c-d_t
+		\end{equation}
+
+		\begin{align*}
+			d'_3=\dW+\hrW+0.5(\tcW)-\dtVC=\dptresVC \text{ cm}
+		\end{align*}
+
+		\FPeval{\dpptresVC}{round(\dW-\dcVC-\dtVC,2)}
+		\begin{equation}
+			d^{''}_3=d-d_c-d_t
+		\end{equation}
+
+		\begin{align*}
+			d^{''}_3=\dW-\dcVC-\dtVC=\dpptresVC \text{cm}
+		\end{align*}
+
+		por lo que el momento nominal es
+
+		\FPeval{\mnVC}{round(0.85*(\ccVC*\dptresVC+\caVC*\dpptresVC)/100000,2)}
+		\begin{align*}
+			M_n=0.85[(\ccVC)(\dptresVC)+(\caVC)(\dpptresVC)]\times 10^{-3}=\textcolor{blue}{\mnVC \text{ t-m}}
+		\end{align*}
+		
 		
 	}%fin if
 }%fin if
